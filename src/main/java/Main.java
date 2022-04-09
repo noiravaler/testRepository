@@ -4,6 +4,7 @@ import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class Main {
 
@@ -15,7 +16,7 @@ public class Main {
             while (!commandName.equalsIgnoreCase("quit")) {
                 System.out.println("Введите команду");
                 String[] command = reader.readLine().split(" ");
-                commandName = command[0];
+                commandName = command[0].toLowerCase(Locale.ROOT);
                 try {
                     switch (commandName) {
                         case "add":
@@ -25,17 +26,18 @@ public class Main {
                             System.out.println("Задача '" + description + "' добавлена");
                             break;
                         case "print":
-                            System.out.printf("%d. [%s] %s\n", task.getIndex() + 1, task.isComplete() ? "x" : " ", task.getDescription());
+                            System.out.printf("%d. [%s] %s%n", task.getIndex() + 1, task.isComplete() ? "x" : " ", task.getDescription());
                             break;
                         case "toggle":
                             int index = Integer.parseInt(command[1]) - 1;
                             Task changedTask = list.get(index);
                             changedTask.setComplete(!changedTask.isComplete());
+                            System.out.printf("Статус задачи '%s' изменен на %s%n", changedTask.getDescription(), changedTask.isComplete());
                             break;
                         default:
                             throw new IllegalArgumentException();
                     }
-                } catch (IllegalArgumentException | IndexOutOfBoundsException e) {
+                } catch (IllegalArgumentException | IndexOutOfBoundsException | NullPointerException e) {
                     System.out.println("Ошибка при вводе данных. Введите команду еще раз");
                 }
             }
