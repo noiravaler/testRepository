@@ -5,42 +5,62 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
+    static List<Task> list = new ArrayList<>();
+    static Task task = null;
 
     public static void main(String[] args) {
-        List<Task> list = new ArrayList<>();
-        Task task = null;
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
             while (true) {
-                try {
-                    System.out.println("Введите команду");
-                    String command = reader.readLine();
-                    if (command.matches("add .*")) {
-                        String description = command.replace("add ", "");
-                        task = new Task(list.size(), description);
-                        list.add(task);
-                        System.out.println("Задача '" + description + "' добавлена");
-                    } else if (command.equals("print")) {
-                        System.out.printf("%d. [%s] %s%n", task.getIndex() + 1, task.isComplete() ? "x" : " ", task.getDescription());
-                    } else if (command.matches("toggle \\d+")) {
-                        int index = Integer.parseInt(command.replace("toggle ", "")) - 1;
-                        Task changedTask = list.get(index);
-                        changedTask.setComplete(!changedTask.isComplete());
-                        System.out.printf("Статус задачи '%s' изменен на %s%n", changedTask.getDescription(), changedTask.isComplete());
-                    } else if (command.equals("quit")) {
-                        break;
-                    } else {
-                        throw new IllegalArgumentException();
-                    }
-                } catch (IllegalArgumentException | NullPointerException e) {
-                    System.out.println("Ошибка при вводе данных. Введите команду еще раз");
+                String command = reader.readLine();
+                if (command.matches("add .+")) {
+                    add(command);
+                } else if (command.matches("print .+")) {
+                    print(command);
+                } else if (command.matches("toggle .+")) {
+                    toggle(command);
+                } else if (command.equals("quit")) {
+                    break;
+                } else {
+                    System.err.println("Команда указана некорректно. Введите команду еще раз");
                 }
             }
-            System.out.println("Конец программы");
         } catch (IOException e) {
-            System.out.println("Ошибка при вводе данных. Введите команду еще раз");
+            System.err.println("Ошибка при вводе данных. Введите команду еще раз");
         }
     }
 
+    private static void add(String command) {
+        String description = command.replace("add ", "").trim();
+        task = new Task(list.size(), description);
+        list.add(task);
+    }
+
+    private static void print(String command) {
+        String description = command.replace("print ", "").trim();
+        if (!description.equals("all")) {
+            System.err.println("Команда указана некорректно. Формат команды: print [all]");
+            return;
+        }
+        if (task == null) {
+            System.err.println("Задача для печати отсутствует");
+            return;
+        }
+        System.out.printf("%d. [%s] %s%n", task.getIndex() + 1, task.isComplete() ? "x" : " ", task.getDescription());
+    }
+
+    private static void toggle(String command) {
+        try {
+            int index = Integer.parseInt(command.replace("toggle ", "").trim()) - 1;
+            if (index < 0 || index > list.size() - 1) {
+                System.err.println("Команда не найдена");
+                return;
+            }
+            Task changedTask = list.get(index);
+            changedTask.setComplete(!changedTask.isComplete());
+        } catch (NumberFormatException ex) {
+            System.err.println("Команда указана некорректно. Формат команды: toggle <идентификатор задачи>");
+        }
+    }
 
     static class Task {
         private final int index;
