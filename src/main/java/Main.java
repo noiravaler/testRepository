@@ -1,3 +1,7 @@
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -7,6 +11,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+@Slf4j
 public class Main {
     static int currentNumber = 1;
     static Map<Integer, Task> tasks = new LinkedHashMap<>();
@@ -31,7 +36,7 @@ public class Main {
                 } else if (command.equals("quit")) {
                     break;
                 } else {
-                    System.err.println("Команда указана некорректно. Введите команду еще раз");
+                    log.error("Команда указана некорректно. Введите команду еще раз");
                     System.out.println("Доступные команды: " +
                             "add <описание задачи>\n" +
                             "print [all]\n" +
@@ -48,6 +53,7 @@ public class Main {
     }
 
     private static void add(String command) {
+        log.debug("Выполняется команда " + command);
         String description = command.replace("add", "").trim();
         task = new Task(description);
         tasks.put(currentNumber, task);
@@ -55,35 +61,38 @@ public class Main {
     }
 
     private static void print(String command) {
+        log.debug("Выполняется команда " + command);
         String description = command.replace("print", "").trim();
         if (task == null) {
-            System.err.println("Задача для печати отсутствует");
+            log.error("Задача для печати отсутствует");
             return;
         }
         if (!description.isEmpty() && !description.equals("all")) {
-            System.err.println("Команда указана некорректно. Формат команды: print [all]");
+            log.error("Команда указана некорректно. Формат команды: print [all]");
             return;
         }
         tasks.entrySet().stream().filter(t -> description.equals("all") || !t.getValue().isComplete()).forEach(t -> printTask(t.getKey(), t.getValue()));
     }
 
     private static void search(String command) {
+        log.debug("Выполняется команда " + command);
         String description = command.replace("search", "").trim();
         if (task == null) {
-            System.err.println("Не добавлено ни одной задачи");
+            log.error("Не добавлено ни одной задачи");
             return;
         }
         Map<Integer, Task> sortedList = tasks.entrySet().stream()
                 .filter(t -> t.getValue().getDescription().contains(description))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         if (sortedList.isEmpty()) {
-            System.err.println("Задачи для печати не найдены");
+            log.error("Задачи для печати не найдены");
             return;
         }
         sortedList.forEach(Main::printTask);
     }
 
     private static void toggle(String command) {
+        log.debug("Выполняется команда " + command);
         int index = Integer.parseInt(command.replaceAll("[^0-9]", ""));
         if (checkTaskExists(index)) {
             tasks.get(index).setComplete(!tasks.get(index).isComplete());
@@ -91,12 +100,14 @@ public class Main {
     }
 
     private static void delete(String command) {
+        log.debug("Выполняется команда " + command);
         int index = Integer.parseInt(command.replaceAll("[^0-9]", ""));
         if (checkTaskExists(index))
             tasks.remove(index);
     }
 
     private static void edit(String command) {
+        log.debug("Выполняется команда " + command);
         Pattern p = Pattern.compile("(edit) ([1-9]\\d*) (.+)");
         Matcher m = p.matcher(command);
         if (m.find()) {
@@ -108,8 +119,11 @@ public class Main {
     }
 
     private static boolean checkTaskExists(int index) {
-        if (!tasks.containsKey(index)) {
-            System.err.println("Задача не найдена");
+        try {
+            if (!tasks.containsKey(index))
+                throw new TaskNotFoundException(index);
+        } catch (TaskNotFoundException exception){
+            log.error(exception.getMessage());
             return false;
         }
         return true;
