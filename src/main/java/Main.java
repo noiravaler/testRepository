@@ -1,6 +1,6 @@
+import exceptions.TaskNotFoundException;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import models.Task;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -50,14 +50,6 @@ public class Main {
         } catch (IOException e) {
             System.err.println("Ошибка при вводе данных. Введите команду еще раз");
         }
-    }
-
-    private static void add(String command) {
-        log.debug("Выполняется команда " + command);
-        String description = command.replace("add", "").trim();
-        task = new Task(description);
-        tasks.put(currentNumber, task);
-        currentNumber++;
     }
 
     private static void print(String command) {
