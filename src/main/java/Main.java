@@ -26,7 +26,7 @@ public class Main {
                 }
             }
         } catch (IOException e) {
-            System.err.println("Ошибка при вводе данных. Введите команду еще раз");
+            System.err.println("Произошла ошибка при вводе данных");
         }
     }
 }
