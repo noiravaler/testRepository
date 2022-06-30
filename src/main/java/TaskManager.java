@@ -1,8 +1,11 @@
-import commands.AddCommand;
-import commands.Command;
+import commands.*;
+import exceptions.IncorrectTaskException;
+import exceptions.TaskNotFoundException;
 import models.Task;
 
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class TaskManager {
     private final Map<Integer, Task> tasks;
@@ -11,33 +14,36 @@ public class TaskManager {
         this.tasks = tasks;
     }
 
-public Command executeCommand(String commandLine){
-    Command command = null;
-    if (commandLine.matches("add .+")) {
-        command = new AddCommand();
-        command.execute(tasks, commandLine);
-    } else if (commandLine.matches("print.*")) {
-        print(command);
-    } else if (command.matches("toggle [1-9]\\d*")) {
-        toggle(command);
-    } else if (command.matches("delete [1-9]\\d*")) {
-        delete(command);
-    } else if (command.matches("edit [1-9]\\d* .+")) {
-        edit(command);
-    } else if (command.matches("search .+")) {
-        search(command);
-    } else if (command.equals("quit")) {
-        break;
-    } else {
-        log.error("Команда указана некорректно. Введите команду еще раз");
-        System.out.println("Доступные команды: " +
-                "add <описание задачи>\n" +
-                "print [all]\n" +
-                "search <substring>\n" +
-                "toggle <идентификатор задачи>\n" +
-                "delete <идентификатор задачи>\n" +
-                "edit <идентификатор задачи> <новое значение>\n" +
-                "quit");
+    public void executeCommand(String commandLine) throws IncorrectTaskException, TaskNotFoundException {
+        Command command = defineCommand(commandLine);
+        command.execute();
     }
-}
+
+    private Command defineCommand(String commandLine) throws IncorrectTaskException {
+        Pattern pattern = Pattern.compile("^(\\w+)(\\s.*|)");
+        Matcher matcher = pattern.matcher(commandLine);
+        if (matcher.find()) {
+            String command = matcher.group(2).trim();
+            switch (matcher.group(1)) {
+                case "add":
+                    return new AddCommand(tasks, command);
+                case "toggle":
+                    return new ToggleCommand(tasks, command);
+                case "delete":
+                    return new DeleteCommand(tasks, command);
+                case "edit":
+                    return new EditCommand(tasks, command);
+                case "print":
+                    return new PrintCommand(tasks, command);
+                case "search":
+                    return new SearchCommand(tasks, command);
+                case "quit":
+                    return new QuitCommand();
+
+                default:
+                    throw new IncorrectTaskException();
+            }
+        } else
+            throw new IncorrectTaskException();
+    }
 }

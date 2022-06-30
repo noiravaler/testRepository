@@ -1,11 +1,9 @@
 package commands;
 
-import models.Task;
-
-import java.util.List;
-import java.util.Map;
+import exceptions.IncorrectTaskException;
+import exceptions.TaskNotFoundException;
 
 public interface Command {
 
-    void execute(Map<Integer, Task> tasks, String command);
+    void execute() throws IncorrectTaskException, TaskNotFoundException;
 }

@@ -8,11 +8,11 @@ import models.Task;
 import java.util.Map;
 
 @Slf4j
-public class ToggleCommand implements Command {
+public class DeleteCommand implements Command {
     private final Map<Integer, Task> tasks;
     private final String description;
 
-    public ToggleCommand(Map<Integer, Task> tasks, String description) {
+    public DeleteCommand(Map<Integer, Task> tasks, String description) {
         this.tasks = tasks;
         this.description = description;
     }
@@ -27,8 +27,8 @@ public class ToggleCommand implements Command {
         if (!tasks.containsKey(index))
             throw new TaskNotFoundException(index);
 
-        log.debug("Выполняется команда toggle " + description);
-        tasks.get(index).setComplete(!tasks.get(index).isComplete());
-        log.debug("Команда toggle {} успешно выполнена", description);
+        log.debug("Выполняется команда delete " + description);
+        tasks.remove(index);
+        log.debug("Команда delete {} успешно выполнена", description);
     }
 }
