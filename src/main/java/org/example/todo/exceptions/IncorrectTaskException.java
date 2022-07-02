@@ -1,4 +1,4 @@
-package exceptions;
+package org.example.todo.exceptions;
 
 public class IncorrectTaskException extends Exception {
 
