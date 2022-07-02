@@ -21,12 +21,12 @@ public class Main {
         ConsoleTaskManager taskManager = new ConsoleTaskManager(tasks, printer);
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
             while (true) {
-                System.out.println("Введите команду");
+                System.out.println("Введите команду:");
                 String commandLine = reader.readLine();
                 try {
                     taskManager.executeCommand(commandLine);
                 } catch (IncorrectTaskException | TaskNotFoundException ex) {
-                    log.error(ex.getLocalizedMessage());
+                    log.error("Error in processing", ex);
                 }
             }
         } catch (IOException e) {

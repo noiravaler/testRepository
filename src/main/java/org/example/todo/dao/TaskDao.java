@@ -11,19 +11,15 @@ public class TaskDao implements ITaskDao {
     private Long index = 0L;
 
     @Override
-    public void add(String description) {
+    public void add(Task task) {
         index++;
-        taskList.add(new Task(index, description));
+        task.setIndex(index);
+        taskList.add(task);
     }
 
     @Override
     public void delete(Long index) {
         taskList.removeIf(t -> t.getIndex() == index);
-    }
-
-    @Override
-    public void edit(Long index, String description) {
-        taskList.stream().filter(t -> t.getIndex() == index).findAny().ifPresent(task -> task.setDescription(description));
     }
 
     @Override

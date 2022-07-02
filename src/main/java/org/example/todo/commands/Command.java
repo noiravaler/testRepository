@@ -6,6 +6,8 @@ import org.example.todo.models.CommandDto;
 
 public interface Command {
 
+    String getName();
+
     void setCommand(CommandDto command);
 
     void execute() throws IncorrectTaskException, TaskNotFoundException;

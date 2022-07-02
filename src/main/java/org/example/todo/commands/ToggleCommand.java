@@ -9,12 +9,18 @@ import org.example.todo.models.Task;
 
 @Slf4j
 public class ToggleCommand implements Command {
+    private static final String NAME = "toggle";
     private final ITaskDao tasks;
     private CommandDto command;
 
     public ToggleCommand(ITaskDao tasks) {
         this.tasks = tasks;
         this.command = new CommandDto();
+    }
+
+    @Override
+    public String getName() {
+        return NAME;
     }
 
     @Override
@@ -32,8 +38,7 @@ public class ToggleCommand implements Command {
         if (task == null)
             throw new TaskNotFoundException(index);
 
-        log.debug("Выполняется команда toggle " + index);
+        log.debug("Выполняется команда toggle {}", index);
         task.setComplete(!task.isComplete());
-        log.debug("Команда toggle {} успешно выполнена", index);
     }
 }

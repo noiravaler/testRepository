@@ -8,12 +8,18 @@ import org.example.todo.models.CommandDto;
 
 @Slf4j
 public class DeleteCommand implements Command {
+    private static final String NAME = "delete";
     private final ITaskDao tasks;
     private CommandDto command;
 
     public DeleteCommand(ITaskDao tasks) {
         this.tasks = tasks;
         this.command = new CommandDto();
+    }
+
+    @Override
+    public String getName() {
+        return NAME;
     }
 
     @Override
@@ -30,8 +36,7 @@ public class DeleteCommand implements Command {
         if (tasks.get(index) == null)
             throw new TaskNotFoundException(index);
 
-        log.debug("Выполняется команда delete " + index);
+        log.debug("Выполняется команда delete {}", index);
         tasks.delete(index);
-        log.debug("Команда delete {} успешно выполнена", index);
     }
 }

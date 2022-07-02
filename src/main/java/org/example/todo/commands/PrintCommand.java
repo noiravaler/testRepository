@@ -11,6 +11,7 @@ import java.util.stream.Stream;
 
 @Slf4j
 public class PrintCommand implements Command {
+    private static final String NAME = "print";
     private final ITaskDao tasks;
     private final ITaskPrinter taskPrinter;
     private CommandDto command;
@@ -19,6 +20,11 @@ public class PrintCommand implements Command {
         this.tasks = tasks;
         this.taskPrinter = taskPrinter;
         this.command = new CommandDto();
+    }
+
+    @Override
+    public String getName() {
+        return NAME;
     }
 
     @Override
@@ -32,7 +38,7 @@ public class PrintCommand implements Command {
         if (description != null && !description.equals("all"))
             throw new IncorrectTaskException();
 
-        log.debug("Выполняется команда print " + description);
+        log.debug("Выполняется команда print {}", description);
         Stream<Task> taskStream = tasks.find(null, description == null);
         taskPrinter.print(taskStream);
     }

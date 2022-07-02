@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 public class TaskParser {
 
-    private static final Pattern COMMAND_TEMPLATE = Pattern.compile("(?<command>\\w+)(?:\\s(?<args>(?:(?<id>\\d+)\\b)?(?<params>.*)))?");
+    private static final Pattern COMMAND_TEMPLATE = Pattern.compile("(?<command>\\w+)(?:\\s(?<args>(?:(?<id>\\d{1,19})\\b)?(?<params>.*)))?");
 
     public static CommandDto parseCommand(String commandLine) {
         Matcher matcher = COMMAND_TEMPLATE.matcher(commandLine);

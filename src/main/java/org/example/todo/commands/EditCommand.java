@@ -8,12 +8,18 @@ import org.example.todo.models.CommandDto;
 
 @Slf4j
 public class EditCommand implements Command {
+    private static final String NAME = "edit";
     private final ITaskDao tasks;
     private CommandDto command;
 
     public EditCommand(ITaskDao tasks) {
         this.tasks = tasks;
         this.command = new CommandDto();
+    }
+
+    @Override
+    public String getName() {
+        return NAME;
     }
 
     @Override
@@ -33,6 +39,5 @@ public class EditCommand implements Command {
 
         log.debug("Выполняется команда edit {} {}", index, description);
         tasks.get(index).setDescription(description);
-        log.debug("Команда edit {} {} успешно выполнена", index, description);
     }
 }

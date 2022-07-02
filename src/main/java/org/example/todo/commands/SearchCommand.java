@@ -11,6 +11,7 @@ import java.util.stream.Stream;
 
 @Slf4j
 public class SearchCommand implements Command {
+    private static final String NAME = "search";
     private final ITaskDao tasks;
     private final ITaskPrinter taskPrinter;
     private CommandDto command;
@@ -19,6 +20,11 @@ public class SearchCommand implements Command {
         this.tasks = tasks;
         this.taskPrinter = taskPrinter;
         this.command = new CommandDto();
+    }
+
+    @Override
+    public String getName() {
+        return NAME;
     }
 
     @Override
@@ -32,7 +38,7 @@ public class SearchCommand implements Command {
         if (description.isEmpty())
             throw new IncorrectTaskException();
 
-        log.debug("Выполняется команда search " + description);
+        log.debug("Выполняется команда search {}", description);
         Stream<Task> taskStream = tasks.find(description, false);
         taskPrinter.print(taskStream);
     }
