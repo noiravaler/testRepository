@@ -1,4 +1,4 @@
-package org.example.todo.models;
+package org.example.todo.data;
 
 import lombok.Data;
 

@@ -1,22 +1,22 @@
-package org.example.todo.commands;
+package org.example.todo.logic.command;
 
 import lombok.extern.slf4j.Slf4j;
-import org.example.todo.dao.ITaskDao;
+import org.example.todo.storage.ITaskDao;
 import org.example.todo.exceptions.IncorrectTaskException;
-import org.example.todo.models.CommandDto;
-import org.example.todo.models.Task;
-import org.example.todo.util.ITaskPrinter;
+import org.example.todo.data.CommandDto;
+import org.example.todo.data.Task;
+import org.example.todo.view.ITaskPrinter;
 
 import java.util.stream.Stream;
 
 @Slf4j
-public class SearchCommand implements Command {
-    private static final String NAME = "search";
+public class PrintCommand implements Command {
+    private static final String NAME = "print";
     private final ITaskDao tasks;
     private final ITaskPrinter taskPrinter;
     private CommandDto command;
 
-    public SearchCommand(ITaskDao tasks, ITaskPrinter taskPrinter) {
+    public PrintCommand(ITaskDao tasks, ITaskPrinter taskPrinter) {
         this.tasks = tasks;
         this.taskPrinter = taskPrinter;
         this.command = new CommandDto();
@@ -35,11 +35,11 @@ public class SearchCommand implements Command {
     @Override
     public void execute() throws IncorrectTaskException {
         String description = command.getFullCommandLine();
-        if (description.isEmpty())
+        if (description != null && !description.equals("all"))
             throw new IncorrectTaskException();
 
-        log.debug("Выполняется команда search {}", description);
-        Stream<Task> taskStream = tasks.find(description, false);
+        log.debug("Выполняется команда print {}", description);
+        Stream<Task> taskStream = tasks.find(null, description == null);
         taskPrinter.print(taskStream);
     }
 }

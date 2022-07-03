@@ -1,12 +1,13 @@
 package org.example.todo;
 
 import lombok.extern.slf4j.Slf4j;
-import org.example.todo.dao.ITaskDao;
-import org.example.todo.dao.TaskDao;
 import org.example.todo.exceptions.IncorrectTaskException;
 import org.example.todo.exceptions.TaskNotFoundException;
-import org.example.todo.util.ITaskPrinter;
-import org.example.todo.util.TaskPrinter;
+import org.example.todo.logic.ConsoleTaskManager;
+import org.example.todo.storage.ITaskDao;
+import org.example.todo.storage.TaskDao;
+import org.example.todo.view.ITaskPrinter;
+import org.example.todo.view.TaskPrinter;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,7 +15,7 @@ import java.io.InputStreamReader;
 
 @Slf4j
 public class Main {
-    static ITaskDao tasks = new TaskDao();
+    static ITaskDao tasks = TaskDao.getInstance();
     static ITaskPrinter printer = new TaskPrinter();
 
     public static void main(String[] args) {

@@ -1,19 +1,18 @@
-package org.example.todo.commands;
+package org.example.todo.logic.command;
 
 import lombok.extern.slf4j.Slf4j;
-import org.example.todo.dao.ITaskDao;
+import org.example.todo.storage.ITaskDao;
 import org.example.todo.exceptions.IncorrectTaskException;
 import org.example.todo.exceptions.TaskNotFoundException;
-import org.example.todo.models.CommandDto;
-import org.example.todo.models.Task;
+import org.example.todo.data.CommandDto;
 
 @Slf4j
-public class ToggleCommand implements Command {
-    private static final String NAME = "toggle";
+public class DeleteCommand implements Command {
+    private static final String NAME = "delete";
     private final ITaskDao tasks;
     private CommandDto command;
 
-    public ToggleCommand(ITaskDao tasks) {
+    public DeleteCommand(ITaskDao tasks) {
         this.tasks = tasks;
         this.command = new CommandDto();
     }
@@ -34,11 +33,10 @@ public class ToggleCommand implements Command {
         if (index == null)
             throw new IncorrectTaskException();
 
-        Task task = tasks.get(index);
-        if (task == null)
+        if (tasks.get(index) == null)
             throw new TaskNotFoundException(index);
 
-        log.debug("Выполняется команда toggle {}", index);
-        task.setComplete(!task.isComplete());
+        log.debug("Выполняется команда delete {}", index);
+        tasks.delete(index);
     }
 }

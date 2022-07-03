@@ -1,6 +1,6 @@
-package org.example.todo.util;
+package org.example.todo.view;
 
-import org.example.todo.models.CommandDto;
+import org.example.todo.data.CommandDto;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

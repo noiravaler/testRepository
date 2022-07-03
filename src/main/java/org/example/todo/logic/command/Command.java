@@ -1,8 +1,8 @@
-package org.example.todo.commands;
+package org.example.todo.logic.command;
 
 import org.example.todo.exceptions.IncorrectTaskException;
 import org.example.todo.exceptions.TaskNotFoundException;
-import org.example.todo.models.CommandDto;
+import org.example.todo.data.CommandDto;
 
 public interface Command {
 

@@ -1,14 +1,26 @@
-package org.example.todo.dao;
+package org.example.todo.storage;
 
-import org.example.todo.models.Task;
+import org.example.todo.data.Task;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
 public class TaskDao implements ITaskDao {
-    List<Task> taskList = new ArrayList<>();
+    private static TaskDao instance = null;
+    private final List<Task> taskList = new ArrayList<>();
     private Long index = 0L;
+
+    private TaskDao() {
+
+    }
+
+    public static TaskDao getInstance() {
+        if (instance == null) {
+            instance = new TaskDao();
+        }
+        return instance;
+    }
 
     @Override
     public void add(Task task) {

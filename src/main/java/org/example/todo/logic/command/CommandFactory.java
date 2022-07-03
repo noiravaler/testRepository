@@ -1,7 +1,7 @@
-package org.example.todo.commands;
+package org.example.todo.logic.command;
 
-import org.example.todo.dao.ITaskDao;
-import org.example.todo.util.ITaskPrinter;
+import org.example.todo.storage.ITaskDao;
+import org.example.todo.view.ITaskPrinter;
 
 import java.util.HashMap;
 import java.util.Map;

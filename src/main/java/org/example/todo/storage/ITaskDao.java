@@ -1,6 +1,6 @@
-package org.example.todo.dao;
+package org.example.todo.storage;
 
-import org.example.todo.models.Task;
+import org.example.todo.data.Task;
 
 import java.util.stream.Stream;
 

@@ -1,10 +1,10 @@
-package org.example.todo.commands;
+package org.example.todo.logic.command;
 
 import lombok.extern.slf4j.Slf4j;
-import org.example.todo.dao.ITaskDao;
+import org.example.todo.storage.ITaskDao;
 import org.example.todo.exceptions.IncorrectTaskException;
-import org.example.todo.models.CommandDto;
-import org.example.todo.models.Task;
+import org.example.todo.data.CommandDto;
+import org.example.todo.data.Task;
 
 @Slf4j
 public class AddCommand implements Command {

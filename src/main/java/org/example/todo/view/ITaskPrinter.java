@@ -1,6 +1,6 @@
-package org.example.todo.util;
+package org.example.todo.view;
 
-import org.example.todo.models.Task;
+import org.example.todo.data.Task;
 
 import java.util.stream.Stream;
 

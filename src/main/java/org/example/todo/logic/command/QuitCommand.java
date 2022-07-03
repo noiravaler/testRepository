@@ -1,7 +1,7 @@
-package org.example.todo.commands;
+package org.example.todo.logic.command;
 
 import lombok.extern.slf4j.Slf4j;
-import org.example.todo.models.CommandDto;
+import org.example.todo.data.CommandDto;
 
 @Slf4j
 public class QuitCommand implements Command {

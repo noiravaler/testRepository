@@ -1,18 +1,19 @@
-package org.example.todo.commands;
+package org.example.todo.logic.command;
 
 import lombok.extern.slf4j.Slf4j;
-import org.example.todo.dao.ITaskDao;
+import org.example.todo.storage.ITaskDao;
 import org.example.todo.exceptions.IncorrectTaskException;
 import org.example.todo.exceptions.TaskNotFoundException;
-import org.example.todo.models.CommandDto;
+import org.example.todo.data.CommandDto;
+import org.example.todo.data.Task;
 
 @Slf4j
-public class EditCommand implements Command {
-    private static final String NAME = "edit";
+public class ToggleCommand implements Command {
+    private static final String NAME = "toggle";
     private final ITaskDao tasks;
     private CommandDto command;
 
-    public EditCommand(ITaskDao tasks) {
+    public ToggleCommand(ITaskDao tasks) {
         this.tasks = tasks;
         this.command = new CommandDto();
     }
@@ -30,14 +31,14 @@ public class EditCommand implements Command {
     @Override
     public void execute() throws IncorrectTaskException, TaskNotFoundException {
         Long index = command.getTaskIndex();
-        String description = command.getCommandLine();
-        if (index == null || description == null)
+        if (index == null)
             throw new IncorrectTaskException();
 
-        if (tasks.get(index) == null)
+        Task task = tasks.get(index);
+        if (task == null)
             throw new TaskNotFoundException(index);
 
-        log.debug("Выполняется команда edit {} {}", index, description);
-        tasks.get(index).setDescription(description);
+        log.debug("Выполняется команда toggle {}", index);
+        task.setComplete(!task.isComplete());
     }
 }

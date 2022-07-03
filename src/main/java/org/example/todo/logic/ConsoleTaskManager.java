@@ -1,13 +1,13 @@
-package org.example.todo;
+package org.example.todo.logic;
 
-import org.example.todo.commands.Command;
-import org.example.todo.commands.CommandFactory;
-import org.example.todo.dao.ITaskDao;
+import org.example.todo.data.CommandDto;
 import org.example.todo.exceptions.IncorrectTaskException;
 import org.example.todo.exceptions.TaskNotFoundException;
-import org.example.todo.models.CommandDto;
-import org.example.todo.util.ITaskPrinter;
-import org.example.todo.util.TaskParser;
+import org.example.todo.logic.command.Command;
+import org.example.todo.logic.command.CommandFactory;
+import org.example.todo.storage.ITaskDao;
+import org.example.todo.view.ITaskPrinter;
+import org.example.todo.view.TaskParser;
 
 import java.util.Map;
 
