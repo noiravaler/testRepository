@@ -5,10 +5,12 @@ import org.example.todo.core.exceptions.IncorrectTaskException;
 import org.example.todo.data.CommandData;
 import org.example.todo.data.Task;
 import org.example.todo.storage.ITaskDao;
+import org.springframework.stereotype.Component;
 
 import java.util.stream.Stream;
 
 @Slf4j
+@Component
 public class SearchCommand implements Command {
     private static final String NAME = "search";
     private final ITaskDao tasks;

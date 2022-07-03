@@ -1,10 +1,12 @@
 package org.example.todo.view;
 
 import org.example.todo.data.CommandData;
+import org.springframework.stereotype.Component;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Component
 public class TaskParser {
 
     private static final Pattern COMMAND_TEMPLATE = Pattern.compile("(?<command>\\w+)(?:\\s(?<args>(?:(?<id>\\d{1,19})\\b)?(?<params>.*)))?");

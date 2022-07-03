@@ -6,10 +6,12 @@ import org.example.todo.core.exceptions.TaskNotFoundException;
 import org.example.todo.data.CommandData;
 import org.example.todo.data.Task;
 import org.example.todo.storage.ITaskDao;
+import org.springframework.stereotype.Component;
 
 import java.util.stream.Stream;
 
 @Slf4j
+@Component
 public class ToggleCommand implements Command {
     private static final String NAME = "toggle";
     private final ITaskDao tasks;

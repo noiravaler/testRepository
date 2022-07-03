@@ -1,11 +1,13 @@
 package org.example.todo.storage;
 
 import org.example.todo.data.Task;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
+@Component
 public class TaskDao implements ITaskDao {
     private static TaskDao instance = null;
     private final List<Task> taskList = new ArrayList<>();
