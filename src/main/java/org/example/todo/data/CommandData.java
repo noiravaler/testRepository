@@ -5,7 +5,7 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-public class CommandDto {
+public class CommandData {
     private String commandName;
     private Long taskIndex;
     private String commandLine;

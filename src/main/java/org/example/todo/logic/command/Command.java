@@ -1,14 +1,17 @@
 package org.example.todo.logic.command;
 
-import org.example.todo.exceptions.IncorrectTaskException;
-import org.example.todo.exceptions.TaskNotFoundException;
-import org.example.todo.data.CommandDto;
+import org.example.todo.core.exceptions.IncorrectTaskException;
+import org.example.todo.core.exceptions.TaskNotFoundException;
+import org.example.todo.data.CommandData;
+import org.example.todo.data.Task;
+
+import java.util.stream.Stream;
 
 public interface Command {
 
     String getName();
 
-    void setCommand(CommandDto command);
+    void setExecutedCommand(CommandData executedCommand);
 
-    void execute() throws IncorrectTaskException, TaskNotFoundException;
+    Stream<Task> execute() throws IncorrectTaskException, TaskNotFoundException;
 }

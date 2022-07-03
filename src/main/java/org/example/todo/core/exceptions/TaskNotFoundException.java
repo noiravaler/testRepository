@@ -1,4 +1,4 @@
-package org.example.todo.exceptions;
+package org.example.todo.core.exceptions;
 
 public class TaskNotFoundException extends Exception{
 

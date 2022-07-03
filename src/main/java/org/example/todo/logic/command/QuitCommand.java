@@ -1,7 +1,10 @@
 package org.example.todo.logic.command;
 
 import lombok.extern.slf4j.Slf4j;
-import org.example.todo.data.CommandDto;
+import org.example.todo.data.CommandData;
+import org.example.todo.data.Task;
+
+import java.util.stream.Stream;
 
 @Slf4j
 public class QuitCommand implements Command {
@@ -13,12 +16,13 @@ public class QuitCommand implements Command {
     }
 
     @Override
-    public void setCommand(CommandDto command) {
+    public void setExecutedCommand(CommandData executedCommand) {
 
     }
 
     @Override
-    public void execute() {
+    public Stream<Task> execute() {
         System.exit(0);
+        return Stream.empty();
     }
 }

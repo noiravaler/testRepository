@@ -1,20 +1,23 @@
 package org.example.todo.logic.command;
 
 import lombok.extern.slf4j.Slf4j;
+import org.example.todo.core.exceptions.IncorrectTaskException;
+import org.example.todo.core.exceptions.TaskNotFoundException;
+import org.example.todo.data.CommandData;
+import org.example.todo.data.Task;
 import org.example.todo.storage.ITaskDao;
-import org.example.todo.exceptions.IncorrectTaskException;
-import org.example.todo.exceptions.TaskNotFoundException;
-import org.example.todo.data.CommandDto;
+
+import java.util.stream.Stream;
 
 @Slf4j
 public class DeleteCommand implements Command {
     private static final String NAME = "delete";
     private final ITaskDao tasks;
-    private CommandDto command;
+    private CommandData command;
 
     public DeleteCommand(ITaskDao tasks) {
         this.tasks = tasks;
-        this.command = new CommandDto();
+        this.command = new CommandData();
     }
 
     @Override
@@ -23,12 +26,12 @@ public class DeleteCommand implements Command {
     }
 
     @Override
-    public void setCommand(CommandDto command) {
-        this.command = command;
+    public void setExecutedCommand(CommandData executedCommand) {
+        this.command = executedCommand;
     }
 
     @Override
-    public void execute() throws IncorrectTaskException, TaskNotFoundException {
+    public Stream<Task> execute() throws IncorrectTaskException, TaskNotFoundException {
         Long index = command.getTaskIndex();
         if (index == null)
             throw new IncorrectTaskException();
@@ -38,5 +41,6 @@ public class DeleteCommand implements Command {
 
         log.debug("Выполняется команда delete {}", index);
         tasks.delete(index);
+        return Stream.empty();
     }
 }

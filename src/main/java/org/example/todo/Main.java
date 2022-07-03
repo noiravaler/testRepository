@@ -1,9 +1,9 @@
 package org.example.todo;
 
 import lombok.extern.slf4j.Slf4j;
-import org.example.todo.exceptions.IncorrectTaskException;
-import org.example.todo.exceptions.TaskNotFoundException;
-import org.example.todo.logic.ConsoleTaskManager;
+import org.example.todo.core.exceptions.IncorrectTaskException;
+import org.example.todo.core.exceptions.TaskNotFoundException;
+import org.example.todo.core.ConsoleTaskManager;
 import org.example.todo.storage.ITaskDao;
 import org.example.todo.storage.TaskDao;
 import org.example.todo.view.ITaskPrinter;
