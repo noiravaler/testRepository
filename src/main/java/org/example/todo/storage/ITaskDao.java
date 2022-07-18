@@ -2,7 +2,7 @@ package org.example.todo.storage;
 
 import org.example.todo.data.Task;
 
-import java.util.stream.Stream;
+import java.util.List;
 
 public interface ITaskDao {
 
@@ -10,7 +10,7 @@ public interface ITaskDao {
 
     void delete(Long index);
 
-    Stream<Task> find(String description, boolean isUncompleted);
+    List<Task> find(String description, boolean isUncompleted);
 
     Task get(Long index);
 }

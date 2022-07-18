@@ -9,7 +9,6 @@ public class Task {
     private String description;
 
     public Task(String description) {
-        this.isComplete = false;
         this.description = description;
     }
 }
