@@ -1,0 +1,50 @@
+databaseChangeLog:
+  - changeSet:
+      id: "001-create"
+      author: "t.milkina"
+      changes:
+        - createTable:
+            tableName: task
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: discription
+                  type: varchar (512)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: is_complete
+                  type: boolean
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: "update id"
+      author: "t.milkina"
+      changes:
+        - modifyDataType:
+            columnName: id
+            newDataType: bigint
+            tableName: task
+  - changeSet:
+      id: "update description2"
+      author: "t.milkina"
+      changes:
+        - renameColumn:
+            oldColumnName: discription
+            newColumnName: description
+            tableName: task
+  - changeSet:
+      id: "update is_complete"
+      author: "t.milkina"
+      changes:
+        - renameColumn:
+            oldColumnName: is_complete
+            newColumnName: complete
+            tableName: task
