@@ -1,5 +1,6 @@
 package org.example.todo.data;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -20,6 +21,11 @@ public class Task {
     private String description;
 
     private boolean complete;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "owner", nullable = false, updatable = false)
+    @JsonIgnore
+    private User owner;
 
     public Task(String description) {
         this.description = description;

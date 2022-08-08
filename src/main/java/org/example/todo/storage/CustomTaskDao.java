@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface CustomTaskDao {
 
-    List<Task> find(String query, boolean isAll);
+    List<Task> find(String query, boolean isAll, Long owner);
 }
